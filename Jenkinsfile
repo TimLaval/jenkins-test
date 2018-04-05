@@ -9,8 +9,6 @@ node('master'){
     }
 
     stage('Build slave') {
-        steps {
-            sh 'node --version'
-        }
+        sh 'node --version'
     }
 }
