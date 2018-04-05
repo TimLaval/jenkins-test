@@ -1,5 +1,4 @@
-node('master'){
-    def app 
+pipeline {
     agent {
         dockerfile true
     }
@@ -9,6 +8,8 @@ node('master'){
     }
 
     stage('Build slave') {
-        sh 'node --version'
+        steps {
+            sh 'node --version'    
+        }
     }
 }
