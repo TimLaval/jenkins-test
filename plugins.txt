@@ -1,0 +1,13 @@
+build-essential
+utils
+libltdl-dev
+libltd17
+sshpass
+doxygen
+doxygen-gui
+git
+gitk
+g++
+gdb
+cmake
+libgtest-dev
