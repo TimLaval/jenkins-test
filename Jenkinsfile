@@ -2,14 +2,15 @@ pipeline {
     agent {
         dockerfile true
     }
-  
-    stage('Git clone') {
-            git url: 'https://github.com/TimLaval/jenkins-test'
-    }
+    stage {
+        stage('Git clone') {
+                git url: 'https://github.com/TimLaval/jenkins-test'
+        }
 
-    stage('Build slave') {
-        steps {
-            sh 'node --version'    
+        stage('Build slave') {
+            steps {
+                sh 'node --version'    
+            }
         }
     }
 }
