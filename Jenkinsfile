@@ -10,7 +10,7 @@ node {
               }
               
               stage("Doxygen"){
-                  make
+                  make doc
                   publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']
               }
            
