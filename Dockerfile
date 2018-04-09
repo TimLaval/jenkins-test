@@ -1,6 +1,11 @@
 FROM debian:jessie
 
 USER root
+
+RUN apt-get update \
+    && apt-get clean
+    
+    
 RUN apt-get install -y libelf1 \
     && apt-get install -y build-essential \
     && apt-get install -y cmake \
@@ -16,7 +21,6 @@ RUN apt-get install -y libelf1 \
     && apt-get install -y sshpass \
     && apt-get install -y texlive 
     
-RUN apt-get update
 
 RUN useradd jenkins --shell /bin/bash --create-home
 USER jenkins
