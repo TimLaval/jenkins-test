@@ -1,19 +1,92 @@
-/** A Example_Test class.
- *  More details about this class.
+#ifndef CPLAYER_H_
+#define CPLAYER_H_
+ 
+/*!
+ * \file CPlayer.h
+ * \brief Lecteur de musique de base
+ * \author hiko-seijuro
+ * \version 0.1
  */
-
-class Example_Test
+#include <string>
+#include <list>
+ 
+/*! \namespace player
+ * 
+ * espace de nommage regroupant les outils composants 
+ * un lecteur audio
+ */
+namespace player
 {
+  /*! \class CPlayer
+   * \brief classe representant le lecteur
+   *
+   *  La classe gere la lecture d'une liste de morceaux
+   */
+  class CPlayer
+  {
+  private:
+    std::list<string> m_listSongs; /*!< Liste des morceaux*/
+    std::list<string>::iterator m_currentSong; /*!< Morceau courant */
+ 
+ 
   public:
-    /** An example member function.
-     *  More details about this function.
+    /*!
+     *  \brief Constructeur
+     *
+     *  Constructeur de la classe CPlayer
+     *
+     *  \param listSongs : liste initial des morceaux
      */
-    void example();
+    CPlayer(std::list<string> listSongs);
+ 
+    /*!
+     *  \brief Destructeur
+     *
+     *  Destructeur de la classe CPlayer
+     */
+    virtual ~CPlayer();
+ 
+  public:
+    /*!
+     *  \brief Ajout d'un morceau
+     *
+     *  Methode qui permet d'ajouter un morceau a liste de
+     *  lecture
+     *
+     *  \param strSong : le morceau a ajouter
+     *  \return true si morceau deja present dans la liste,
+     *  false sinon
+     */
+    bool add(std::string strSong);
+ 
+    /*!
+     *  \brief Morceau suivant
+     *
+     *  Passage au morceau suivant
+     */
+    void next();
+ 
+    /*!
+     *  \brief Morceau precedent
+     *
+     *  Passage au morceau precedent
+     */
+    void previous();
+ 
+    /*!
+     *  \brief Lecture 
+     *
+     *  Lance la lecture de la liste
+     */
+    void play();
+ 
+    /*!
+     *  \brief Arret
+     *
+     *  Arrete la lecture
+     */
+    void stop();
+  };
 };
-
-void Example_Test::example() {}
-
-/** \example example_test.cpp
- * This is an example of how to use the Example_Test class.
- * More details about this example.
- */
+ 
+#endif
