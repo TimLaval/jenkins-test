@@ -5,11 +5,13 @@ node {
     
           env.inside {
               stage("Checkout and build deps"){
-                sh "echo 'DEBUG'"
+                  sh "echo 'DEBUG'"
+                  cmake . -G"Unix Makefiles"
               }
               
               stage("Doxygen"){
-                publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']
+                  make
+                  publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']
               }
            
           }
