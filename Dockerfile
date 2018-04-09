@@ -2,8 +2,24 @@ FROM debian
 
 USER root
 
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
+RUN apt-get install -y \
+    build-essential \
+cmake \
+doxygen \
+doxygen-gui \
+g++ \
+gdb \
+git \
+gitk \
+libgl1-mesa-dev \
+libgtest-dev \
+libltdl-dev \
+libncurses5-dev \
+libxt-dev \
+meld \
+sshpass \
+texlive \
+utils
 
 RUN cd /usr/src/gtest \
     && cmake CMakeLists.txt \
