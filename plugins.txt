@@ -6,7 +6,13 @@ g++
 gdb
 git
 gitk
+libgl1-mesa-dev
 libgtest-dev
 libltdl-dev
+libncurses5-dev
+libxt-dev
+meld
 sshpass
+texlive
 utils
+
