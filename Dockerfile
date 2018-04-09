@@ -1,9 +1,8 @@
-FROM node:7-alpine
+FROM debian
 
-RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz \
-    && tar xvzf docker-17.04.0-ce.tgz \
-    && mv docker/docker /usr/local/bin \
-    && rm -r docker docker-17.04.0-ce.tgz
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
-RUN service docker stop \
-    && nohup docker daemon -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock &
+RUN apt-get update \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
