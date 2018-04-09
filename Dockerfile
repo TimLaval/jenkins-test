@@ -15,9 +15,7 @@ RUN apt-get update \
     && apt-get install -y libgtest-dev \
     && apt-get install -y meld \
     && apt-get install -y sshpass \
-    && apt-get install -y texlive \
-    && apt-get install -y utils
-
+    && apt-get install -y texlive 
 
 RUN useradd jenkins --shell /bin/bash --create-home
 USER jenkins
