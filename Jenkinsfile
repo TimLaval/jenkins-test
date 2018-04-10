@@ -11,7 +11,7 @@ node {
               
               stage("Doxygen"){
                   sh "make doc"
-                  sh "publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']"
+                 // sh "publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']"
               }
            
           }
