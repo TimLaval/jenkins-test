@@ -23,6 +23,8 @@ RUN mkdir -p /data touch /data/x
 RUN chown -R jenkins /data
 VOLUME /data
 
-USER jenkins
 
 RUN cmake /usr/src/gtest/CMakeLists.txt
+
+USER jenkins
+
