@@ -20,7 +20,7 @@ sshpass
 RUN cmake /usr/src/gtest/CMakeLists.txt
 
 RUN mkdir -p /data touch /data/x
-RUN chown -R foo:foo /data
+RUN chown -R jenkins:jenkins /data
 VOLUME /data
 
 RUN useradd jenkins --shell /bin/bash --create-home
