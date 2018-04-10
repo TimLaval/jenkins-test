@@ -19,7 +19,7 @@ sshpass
 
 RUN cmake /usr/src/gtest/CMakeLists.txt
 
-RUN mkdir /data &amp;&amp; touch /data/x
+RUN mkdir -p /data touch /data/x
 RUN chown -R foo:foo /data
 VOLUME /data
 
