@@ -19,7 +19,7 @@ sshpass
 
 RUN cmake /usr/src/gtest/CMakeLists.txt
 
-VOLUMES ["/var/log/jenkins"]
+VOLUME VOLUMES ["/var/log/jenkins"]["/var/log/jenkins"]
 
 RUN useradd jenkins --shell /bin/bash --create-home
 USER jenkins
