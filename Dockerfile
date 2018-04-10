@@ -19,7 +19,9 @@ sshpass
 
 RUN cmake /usr/src/gtest/CMakeLists.txt
 
-VOLUME VOLUMES ["/var/log/jenkins"]["/var/log/jenkins"]
+RUN mkdir /data &amp;&amp; touch /data/x
+RUN chown -R foo:foo /data
+VOLUME /data
 
 RUN useradd jenkins --shell /bin/bash --create-home
 USER jenkins
