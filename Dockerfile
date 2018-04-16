@@ -28,3 +28,6 @@ RUN cmake /usr/src/gtest/CMakeLists.txt
 
 USER jenkins
 
+# Clone the conf files into the docker container
+# Have to add a user with his pass
+RUN git clone https://github.com/barco-healthcare/dermscan-ipi.git
