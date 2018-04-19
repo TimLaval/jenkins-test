@@ -68,12 +68,7 @@ RUN \
     git clone $VTK_GIT -b $VTK_VERSION VTK && \
     mkdir build && \
     cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release \
-          -DPYTHON_EXECUTABLE=/usr/bin/python2.7 \
-          -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 \
-          -DPYTHON_INCLUDE_DIR=/usr/include/x86_64-linux-gnu/python2.7m \
-          -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7m.so.1 \
-          ../VTK && \
+    cmake ../VTK && \
     make -j $N_CPUS && \
 make install
 
