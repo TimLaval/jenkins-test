@@ -13,7 +13,7 @@ node {
 def checkout() {
 	stage ('Checkout code') {
 	    checkout scm
-	    PROPERTIES = readProperties  file: './docker/jenkins.properties'
+	    //PROPERTIES = readProperties  file: './docker/jenkins.properties'
 	}
 }
 
