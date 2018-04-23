@@ -25,10 +25,10 @@ def buildDocker() {
                   sh 'cmake . -G"Unix Makefiles"'
               }
               
-              stage("Doxygen"){
-                  sh "make doc"
+             // stage("Doxygen"){
+               //   sh "make doc"
                  // sh "publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']"
-              }
+              //}
            
     }
 }
