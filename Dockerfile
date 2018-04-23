@@ -77,7 +77,12 @@ make install
 
 USER basicuser
 
+RUN mkdir /repo
+RUN mkdir /compil
+RUN cd repo
 # Clone the conf files into the docker container
 # Have to add a user with his pass
 #RUN git clone https://github.com/barco-healthcare/dermscan-ipi.git
 RUN git clone https://github.com/TimLaval/gtest-jenkins.git
+
+
