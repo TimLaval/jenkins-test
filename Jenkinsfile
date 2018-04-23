@@ -21,7 +21,7 @@ def buildDocker() {
      def env = docker.build 'debian-slave'   
      env.inside {
               stage("Checkout and build deps"){
-                  sh "echo 'DEBUG'"
+                  sh 'echo "DEBUG"'
                   sh 'cmake . -G"Unix Makefiles"'
               }
               
