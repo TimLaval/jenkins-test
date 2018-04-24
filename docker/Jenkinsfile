@@ -1,0 +1,38 @@
+#!groovy
+
+node {
+    
+	try {
+		checkout()
+		buildDocker()
+		currentBuild.result = 'SUCCESS'		
+	}catch(Exception err) {
+		echo "Something went wrong: ${err}"
+		currentBuild.result = 'FAILURE'
+	}finally {
+		if(currentBuild.result == 'SUCCESS') {
+			triggerDependentJobs()
+		}
+	}
+}
+
+def checkout() {
+	stage ('Checkout code') {
+	    checkout scm
+	    PROPERTIES = readProperties  file: './docker/jenkins.properties'
+	}
+}
+
+def buildDocker() {
+	docker.build("${PROPERTIES['DOCKER_IMAGE_NAME']}:${PROPERTIES['VERSION']}", "./docker")
+
+	sh "docker tag ${PROPERTIES['DOCKER_IMAGE_NAME']}:${PROPERTIES['VERSION']} ${PROPERTIES['DOCKER_IMAGE_NAME']}:latest"
+}
+
+def triggerDependentJobs(){
+	stage('Trigger Dependent Jobs'){
+		build job: 'abcd_test_build', propagate: false, wait: false
+	}
+}
+
+
