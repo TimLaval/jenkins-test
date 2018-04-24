@@ -55,12 +55,6 @@ libgtest-dev \
 meld \
 sshpass
 
-# Added some template
-ADD doxygen/ doxygen/
-
-# Go to working directory
-#WORKDIR /doxygen/
-
 WORKDIR $SOFT
 RUN \
     mkdir vtk && \
