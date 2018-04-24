@@ -1,36 +1,32 @@
 #!groovy
 
 node {
-    
+
 	try {
 		checkout()
-		buildDocker()		
-	} catch(Exception err) {
-		echo "Something went wrong: ${err}"
-	} 
-}
 
-def checkout() {
-	stage ('Checkout code') {
-	    checkout scm
-	    //PROPERTIES = readProperties  file: './docker/jenkins.properties'
+		buildAndTest()
+
+	}catch(Exception err) {
+		echo "Something went wrong: ${err}"
 	}
 }
 
-def buildDocker() {
-     def env = docker.build 'debian-slave'   
-     env.inside {
-              stage("Checkout and build deps"){
-                  echo "DEBUG"
-		  sh 'cmake . -G"Unix Makefiles"'
-              }
-              
-             // stage("Doxygen"){
-               //   sh "make doc"
-                 // sh "publishHTML target: [$class: 'HtmlPublisherTarget', reportName: 'Doxygen', reportDir: 'build/linux/doc/html', reportFiles: 'index.html']"
-              //}
-           
-    }
+def checkout() {
+	stage('Checkout code'){
+		checkout scm
+		PROPERTIES = readProperties file: 'jenkins.properties'
+	}
 }
 
+def buildAndTest() {
+	stage('Building and Testing') {
+		// Retrieve current workspace directory.
+		PWD = pwd()
 
+		//Retrieve jenkins UID and GID on host node.
+
+		docker.image("$(PROPERTIES['DOCKER_IMAGE_NAME']}:latest).inside("-u root --name ${PROPERTIES['DOCKER_IMAGE_NAME']} -v ${PROPERTIES['ABCD_PATH']}:/media -e HOST_USER_ID=${jenkins_uid} -e HOST_USER_GID=${jenkins_gid}"){
+	sh "/scripts/runTest.sh"
+}
+			

@@ -7,7 +7,7 @@ node {
 		buildDocker()
 		currentBuild.result = 'SUCCESS'		
 	}catch(Exception err) {
-		//echo "Something went wrong: ${err}"
+		echo "Something went wrong: ${err}"
 		currentBuild.result = 'FAILURE'
 	}finally {
 		if(currentBuild.result == 'SUCCESS') {
