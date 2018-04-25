@@ -25,6 +25,7 @@ ENV TERM xterm
 
 ENV HOME /work
 ENV SOFT $HOME/soft
+ENV ABCD $HOME/abcd
 ENV BASHRC $HOME/.bashrc
 
 # Create a non-priviledge user that will run the services
@@ -90,9 +91,10 @@ RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-
 
 
 RUN cd $HOME
-RUN mkdir /repo
-RUN mkdir /compil
-RUN cd repo
+run mkdir $ABCD
+RUN mkdir $ABCD/repo
+RUN mkdir $ABCD/compil
+RUN cd $ABCD/repo
 # Clone the conf files into the docker container
 # Have to add a user with his pass
 #RUN git clone https://github.com/barco-healthcare/dermscan-ipi.git
