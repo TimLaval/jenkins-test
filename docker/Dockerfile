@@ -47,13 +47,18 @@ cmake \
 doxygen \
 doxygen-gui \
 g++ \
+gcc \
 gdb \
 git \
 gitk \
 graphviz \
 libgtest-dev \
 meld \
-sshpass
+sshpass && \
+rm -rf /var/lib/apt/lists/* && \
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5   90 --slave /usr/bin/g++ g++ /usr/bin/g++-5 && \
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 80 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9 && \
+apt-get build-dep vtk6
 
 WORKDIR $SOFT
 RUN \
