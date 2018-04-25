@@ -47,7 +47,7 @@ cmake \
 doxygen \
 doxygen-gui \
 g++ \
-gcc \
+gcc-5 \
 gdb \
 git \
 gitk \
