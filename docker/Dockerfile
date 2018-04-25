@@ -1,8 +1,8 @@
-FROM debian:jessie
+FROM ubuntu:16.04  
 
 USER root
 
-#ARG DEBIAN_FRONTEND "noninteractive"
+ARG DEBIAN_FRONTEND=noninteractive
 
 ENV VTK_VERSION v6.3.0
 ENV VTK_GIT https://gitlab.kitware.com/vtk/vtk.git
