@@ -1,2 +1,2 @@
 build:
-	docker build -t abcd_tests .
+	docker build -t abcd_build .
