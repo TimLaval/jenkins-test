@@ -46,33 +46,30 @@ RUN apt-get -qq -y install \
 cmake \
 doxygen \
 doxygen-gui \
-g++-4.9 \
-gcc-4.9 \
-g++-5 \
-gcc-5 \
-gdb \
+g++ \
 git \
 gitk \
 graphviz \
 libgtest-dev \
 meld \
-sshpass && \
-rm -rf /var/lib/apt/lists/* && \
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5   90 --slave /usr/bin/g++ g++ /usr/bin/g++-5 && \
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 80 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9 && \
-apt-get build-dep vtk6
+sshpass 
 
-WORKDIR $SOFT
-RUN \
-    mkdir vtk && \
-    cd vtk && \
-    git clone $VTK_GIT -b $VTK_VERSION VTK && \
-    mkdir build && \
-    cd build && \
-    cmake ../VTK && \
-    make -j $N_CPUS && \
-make install
+# Download & extract VTK
+RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 
+RUN mkdir /vtk-build2
+RUN cd /vtk-build2/ && cmake \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DVTK_WRAP_PYTHON:BOOL=ON \
+  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
+  -DVTK_WRAP_TCL:BOOL=ON \
+  -DVTK_PYTHON_VERSION:STRING=3 \
+  -DVTK_USE_TK:BOOL=ON \
+  /tmpbuild/VTK-7.0.0
+
+# Build VTK
+RUN cd /vtk-build2/ && make
 
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
