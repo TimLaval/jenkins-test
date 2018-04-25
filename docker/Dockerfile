@@ -55,6 +55,9 @@ meld \
 sshpass \
 wget
 
+RUN mkdir /tmpbuild
+WORKDIR /tmpbuild
+
 # Download & extract VTK
 RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 
