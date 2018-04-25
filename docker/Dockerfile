@@ -58,6 +58,16 @@ wget
 RUN mkdir /tmpbuild
 WORKDIR /tmpbuild
 
+# Download & build Tcl
+# https://www.tcl.tk/doc/howto/compile.html#unix
+RUN wget http://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz && tar -zxvf tcl8.6.6-src.tar.gz
+RUN cd tcl8.6.6/unix && ./configure && make && make install
+
+# Download & build Tk
+# https://www.tcl.tk/doc/howto/compile.html
+RUN wget http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
+RUN cd tk8.6.6/unix && ./configure && make && make install
+
 # Download & extract VTK
 RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 
