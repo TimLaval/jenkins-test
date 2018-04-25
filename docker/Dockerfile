@@ -25,7 +25,7 @@ ENV TERM xterm
 
 ENV HOME /work
 ENV SOFT $HOME/soft
-ENV TEMP $HOME/tempbuild
+ENV TEMP /tempbuild
 ENV BASHRC $HOME/.bashrc
 
 # Create a non-priviledge user that will run the services
