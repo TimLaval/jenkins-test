@@ -88,7 +88,6 @@ RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-
 
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
-USER basicuser
 
 RUN cd $HOME
 RUN mkdir /repo
@@ -99,4 +98,5 @@ RUN cd repo
 #RUN git clone https://github.com/barco-healthcare/dermscan-ipi.git
 RUN git clone https://github.com/TimLaval/gtest-jenkins.git
 
+USER basicuser
 
