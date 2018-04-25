@@ -66,7 +66,7 @@ WORKDIR $SOFT
 # Download & build Tk
 # https://www.tcl.tk/doc/howto/compile.html
 RUN wget http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
-RUN cd tk8.6.6/unix && ./configure && make && make install
+#RUN cd tk8.6.6/unix && ./configure && make && make install
 
 WORKDIR $SOFT
 # Download & extract VTK
