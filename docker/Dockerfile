@@ -46,7 +46,10 @@ RUN apt-get -qq -y install \
 cmake \
 doxygen \
 doxygen-gui \
-g++ \
+g++-4.9 \
+gcc-4.9 \
+g++-5 \
+gcc-5 \
 gdb \
 git \
 gitk \
