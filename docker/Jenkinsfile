@@ -31,7 +31,7 @@ def buildDocker() {
 
 def triggerDependentJobs(){
 	stage('Trigger Dependent Jobs'){
-		build job: 'abcd_build', propagate: false, wait: false
+		//build job: 'abcd_build', propagate: false, wait: false
 	}
 }
 
