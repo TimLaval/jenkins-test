@@ -74,8 +74,8 @@ WORKDIR $TEMP
 # Download & extract VTK
 RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 
-RUN mkdir /vtk-build2
-RUN cd /vtk-build2/ && cmake \
+RUN mkdir $TEMP/vtk-build2
+RUN cd $TEMP/vtk-build2/ && cmake \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
   -DVTK_WRAP_PYTHON:BOOL=ON \
