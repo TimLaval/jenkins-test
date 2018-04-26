@@ -73,19 +73,19 @@ WORKDIR $SOFT
 # Download & extract VTK
 RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 
-#RUN mkdir $SOFT/vtk-build2
-#RUN cd $TEMP/vtk-build2/ && cmake \
-#  -DCMAKE_BUILD_TYPE:STRING=Release \
-#  -DBUILD_TESTING:BOOL=OFF \
-#  -DVTK_WRAP_PYTHON:BOOL=ON \
-#  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-#  -DVTK_WRAP_TCL:BOOL=ON \
-#  -DVTK_PYTHON_VERSION:STRING=3 \
-#  -DVTK_USE_TK:BOOL=ON \
-#  /tmpbuild/VTK-7.0.0
+RUN mkdir $SOFT/vtk-build2
+RUN cd $SOFT/vtk-build2/ && cmake \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DVTK_WRAP_PYTHON:BOOL=ON \
+  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
+  -DVTK_WRAP_TCL:BOOL=ON \
+  -DVTK_PYTHON_VERSION:STRING=3 \
+  -DVTK_USE_TK:BOOL=ON \
+  /$SOFT/VTK-7.0.0
 
 # Build VTK
-#RUN cd /vtk-build2/ && make
+RUN cd $SOFT/vtk-build2/ && make
 
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
