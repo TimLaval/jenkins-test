@@ -45,6 +45,7 @@ USER root
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
 build-essential \
+cmake \
 doxygen \
 doxygen-gui \
 g++ \
@@ -56,12 +57,12 @@ meld \
 sshpass \
 wget
 
-WORKDIR $SOFT
-RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.3.tar.gz && \
-    tar xzf cmake-2.8.3.tar.gz && \
-    cd cmake-2.8.3 && \
-    make && \
-    make install
+#WORKDIR $SOFT
+#RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.3.tar.gz && \
+#    tar xzf cmake-2.8.3.tar.gz && \
+#    cd cmake-2.8.3 && \
+#    make && \
+#    make install
 
 RUN apt-get install cmake-curses-gui
 
