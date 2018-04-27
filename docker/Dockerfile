@@ -44,7 +44,6 @@ USER root
 #Installation of tools
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
-cmake \
 doxygen \
 doxygen-gui \
 g++ \
@@ -55,6 +54,15 @@ libgtest-dev \
 meld \
 sshpass \
 wget
+
+WORKDIR $SOFT
+RUN wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz && \
+    tar xf cmake-3.2.2.tar.gz && \
+    cd cmake-3.2.2 && \
+    ./configure && \
+    make
+
+RUN apt-get install cmake-curses-gui
 
 WORKDIR $SOFT
 RUN git clone git://vtk.org/VTK.git VTK
