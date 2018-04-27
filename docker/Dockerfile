@@ -57,36 +57,12 @@ sshpass \
 wget
 
 WORKDIR $SOFT
-
-# Download & build Tcl
-# https://www.tcl.tk/doc/howto/compile.html#unix
-RUN wget http://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz && tar -zxvf tcl8.6.6-src.tar.gz
-RUN cd tcl8.6.6/unix && ./configure && make && make install
-
-WORKDIR $SOFT
-# Download & build Tk
-# https://www.tcl.tk/doc/howto/compile.html
-RUN wget http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
-RUN cd tk8.6.6/unix && ./configure && make && make install
-
-WORKDIR $SOFT
-# Download & extract VTK
-RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
-
-RUN mkdir $SOFT/vtk-build2
-RUN cd $SOFT/vtk-build2/ && cmake \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=OFF \
-  -DVTK_WRAP_PYTHON:BOOL=ON \
-  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-  -DVTK_WRAP_TCL:BOOL=ON \
-  -DVTK_PYTHON_VERSION:STRING=3 \
-  -DVTK_USE_TK:BOOL=ON \
-  /$SOFT/VTK-7.0.0
-
-# Build VTK
-RUN cd $SOFT/vtk-build2/ && make
-
+RUN git clone git://vtk.org/VTK.git VTK
+RUN mkdir VTK-build && \
+    cd VTK-build && \
+    ccmake $SOFT/VTK && \
+    make 
+    
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
 
