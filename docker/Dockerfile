@@ -55,6 +55,7 @@ gitk \
 graphviz \
 libgtest-dev \
 meld \
+ninja-build \
 sshpass \
 wget
 
