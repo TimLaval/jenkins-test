@@ -44,6 +44,7 @@ USER root
 #Installation of tools
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
+build-essential \
 doxygen \
 doxygen-gui \
 g++ \
