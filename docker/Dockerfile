@@ -46,6 +46,7 @@ RUN apt-get -qq update
 RUN apt-get -qq -y install \
 build-essential \
 cmake \
+cmake-curses-gui \
 doxygen \
 doxygen-gui \
 g++ \
@@ -57,21 +58,39 @@ meld \
 sshpass \
 wget
 
-#WORKDIR $SOFT
-#RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.3.tar.gz && \
-#    tar xzf cmake-2.8.3.tar.gz && \
-#    cd cmake-2.8.3 && \
-#    make && \
-#    make install
+# Install CMake
+ENV CMAKE_ARCHIVE_SHA256 fdda4a8324e23c705ef0c2c45ba934ff3bd43798fb5631eec2d453693dbe777c
+ENV CMAKE_VERSION_MAJOR 3
+ENV CMAKE_VERSION_MINOR 6
+ENV CMAKE_VERSION_PATCH 1
+ENV CMAKE_VERSION ${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}
+RUN cd $SOFT && \
+  wget https://cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
+  hash=$(sha256sum ./cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz | awk '{ print $1 }') && \
+  [ $hash = "${CMAKE_ARCHIVE_SHA256}" ] && \
+  tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
+  rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
-RUN apt-get install cmake-curses-gui
-
-WORKDIR $SOFT
-RUN git clone git://vtk.org/VTK.git VTK
-RUN mkdir VTK-build && \
+RUN cd $SOFT && git clone --depth 1  git://vtk.org/VTK.git && \
+    mkdir VTK-build && \
     cd VTK-build && \
-    ccmake $SOFT/VTK && \
-    make 
+    cmake \
+        -G Ninja \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DBUILD_EXAMPLES:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=OFF \
+        -DBUILD_SHARED_LIBS:BOOL=ON \
+        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
+        -DITK_LEGACY_REMOVE:BOOL=ON \
+        -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
+        -DITK_USE_SYSTEM_LIBRARIES:BOOL=OFF \
+        -DModule_ITKCommon:BOOL=ON \
+        -DModule_ITKIOXML:BOOL=ON \
+        -DModule_ITKExpat:BOOL=ON \
+        ../VTK && \
+    ninja install && \
+cd $SOFT && rm -rf VTK VTK-build
     
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
