@@ -56,11 +56,11 @@ sshpass \
 wget
 
 WORKDIR $SOFT
-RUN wget http://www.cmake.org/files/v3.2/cmake-3.2.2.tar.gz && \
-    tar xf cmake-3.2.2.tar.gz && \
-    cd cmake-3.2.2 && \
-    ./configure && \
-    make
+RUN wget http://www.cmake.org/files/v2.8/cmake-2.8.3.tar.gz && \
+    tar xzf cmake-2.8.3.tar.gz && \
+    cd cmake-2.8.3 && \
+    make && \
+    make install
 
 RUN apt-get install cmake-curses-gui
 
