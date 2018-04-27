@@ -54,6 +54,7 @@ git \
 gitk \
 graphviz \
 libgtest-dev \
+libgl1-mesa-dev \
 meld \
 ninja-build \
 sshpass \
