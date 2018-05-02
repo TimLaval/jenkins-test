@@ -45,8 +45,6 @@ USER root
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
 build-essential \
-cmake \
-cmake-curses-gui \
 doxygen \
 doxygen-gui \
 g++ \
@@ -63,8 +61,8 @@ wget
 # Install CMake
 ENV CMAKE_ARCHIVE_SHA256 fdda4a8324e23c705ef0c2c45ba934ff3bd43798fb5631eec2d453693dbe777c
 ENV CMAKE_VERSION_MAJOR 3
-ENV CMAKE_VERSION_MINOR 6
-ENV CMAKE_VERSION_PATCH 1
+ENV CMAKE_VERSION_MINOR 8
+ENV CMAKE_VERSION_PATCH 2
 ENV CMAKE_VERSION ${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}
 RUN cd $SOFT && \
   wget https://cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
