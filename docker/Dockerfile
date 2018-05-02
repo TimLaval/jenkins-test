@@ -1,4 +1,4 @@
-FROM ubuntu:16.04  
+FROM debian:jessie  
 
 USER root
 
@@ -74,31 +74,32 @@ RUN cd $SOFT && \
   rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
-RUN cd $SOFT && git clone --depth 1  git://vtk.org/VTK.git && \
-    mkdir VTK-build && \
-    cd VTK-build && \
-    cmake \
-        -G Ninja \
-        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-        -DBUILD_EXAMPLES:BOOL=OFF \
-        -DBUILD_TESTING:BOOL=OFF \
-        -DBUILD_SHARED_LIBS:BOOL=ON \
-        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
-        -DITK_LEGACY_REMOVE:BOOL=ON \
-        -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
-        -DITK_USE_SYSTEM_LIBRARIES:BOOL=OFF \
-        -DModule_ITKCommon:BOOL=ON \
-        -DModule_ITKIOXML:BOOL=ON \
-        -DModule_ITKExpat:BOOL=ON \
-        ../VTK && \
-    ninja install && \
-cd $SOFT && rm -rf VTK VTK-build
+#Install VTK
+RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
+
+RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
+RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get build-dep -y libvtk6-dev
+RUN mkdir -p $SOFT/VTK-build
+WORKDIR $SOFT/VTK-build
+RUN cmake -G Ninja \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DVTK_WRAP_PYTHON:BOOL=ON \
+  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
+  -DVTK_Group_Qt:BOOL=ON \
+  -DVTK_QT_VERSION:STRING=5 \
+  -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
+  -DVTK_PYTHON_VERSION:STRING=3 \
+  ../VTK
+RUN ninja
     
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
 
 RUN cd $HOME
-run mkdir $ABCD
+RUN mkdir $ABCD
 RUN mkdir $ABCD/repo
 RUN mkdir $ABCD/compil
 RUN cd $ABCD/repo
