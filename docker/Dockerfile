@@ -43,20 +43,20 @@ WORKDIR $HOME
 USER root
 #Installation of tools
 RUN apt-get -qq update
-#RUN apt-get -qq -y install \
-#build-essential \ 
-#doxygen \
-#doxygen-gui \
-#g++ \
-#git \
-#gitk \
-#graphviz \
-#libgtest-dev \
-#libgl1-mesa-dev \
-#meld \
-#ninja-build \
-#sshpass \
-#wget
+RUN apt-get -qq -y install \
+build-essential \ 
+doxygen \
+doxygen-gui \
+g++ \
+git \
+gitk \
+graphviz \
+libgtest-dev \
+libgl1-mesa-dev \
+meld \
+ninja-build \
+sshpass \
+wget
 
 # Install CMake
 ENV CMAKE_ARCHIVE_SHA256 fdda4a8324e23c705ef0c2c45ba934ff3bd43798fb5631eec2d453693dbe777c
