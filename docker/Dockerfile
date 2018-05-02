@@ -65,11 +65,11 @@ ENV CMAKE_VERSION_MINOR 8
 ENV CMAKE_VERSION_PATCH 2
 ENV CMAKE_VERSION ${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}
 RUN cd $SOFT && \
-  wget https://cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  hash=$(sha256sum ./cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz | awk '{ print $1 }') && \
-  [ $hash = "${CMAKE_ARCHIVE_SHA256}" ] && \
-  tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+  wget https://cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+RUN hash=$(sha256sum ./cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz | awk '{ print $1 }') 
+RUN [ $hash = "${CMAKE_ARCHIVE_SHA256}" ]
+RUN  tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+RUN  rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install VTK
