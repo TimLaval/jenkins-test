@@ -53,6 +53,7 @@ gitk \
 graphviz \
 libgtest-dev \
 libgl1-mesa-dev \
+libqt5x11extras5-dev \
 meld \
 ninja-build \
 sshpass \
