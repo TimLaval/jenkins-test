@@ -77,15 +77,16 @@ ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install VTK
 
-RUN cd $SOFT && git clone --depth 1 git://vtk.org/VTK.git
-WORKDIR $SOFT/VTK
+WORKDIR $SOFT
+RUN git clone https://gitlab.kitware.com/srikanthnagella/vtk.git
+WORKDIR $SOFT/vtk
 RUN git checkout master
-#RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
+RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
 
 RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
 RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
 RUN apt-get update
-#RUN apt-get build-dep -y libvtk6-dev
+RUN apt-get build-dep -y libvtk6-dev
 RUN mkdir -p $SOFT/VTK-build
 WORKDIR $SOFT/VTK-build
 RUN cmake -G Ninja \
@@ -97,9 +98,8 @@ RUN cmake -G Ninja \
   -DVTK_QT_VERSION:STRING=5 \
   -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
   -DVTK_PYTHON_VERSION:STRING=3 \
-  ../VTK
+  ../vtk
 RUN ninja
-#RUN cmake /usr/src/gtest/CMakeLists.txt
 
 
 RUN cd $HOME
