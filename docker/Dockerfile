@@ -79,7 +79,7 @@ ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 WORKDIR $SOFT
 RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
 RUN mkdir $SOFT/vtk-build2
-RUN cd /vtk-build2/ && cmake \
+RUN cd vtk-build2/ && cmake \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
   -DVTK_WRAP_PYTHON:BOOL=ON \
@@ -90,7 +90,8 @@ RUN cd /vtk-build2/ && cmake \
   ../VTK-7.0.0
 
 # Build VTK
-RUN cd /vtk-build2/ && make
+WORKDIR $SOFT/vtk-build2
+RUN make
 
 RUN cd $HOME
 RUN mkdir $ABCD
