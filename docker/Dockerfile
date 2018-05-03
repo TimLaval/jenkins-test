@@ -56,9 +56,11 @@ libgl1-mesa-dev \
 libqt5x11extras5-dev \
 libxt-dev \
 meld \
+mesa-osmesa \
 ninja-build \
 sshpass \
-wget
+wget \
+python2-dev
 
 RUN apt-get install -f
 
