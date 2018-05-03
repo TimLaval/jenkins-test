@@ -76,31 +76,21 @@ RUN cd $SOFT && \
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install VTK
-
 WORKDIR $SOFT
-RUN git clone https://gitlab.kitware.com/srikanthnagella/vtk.git
-WORKDIR $SOFT/vtk
-RUN git checkout master
-RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
-
-RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
-RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get build-dep -y libvtk6-dev
-RUN mkdir -p $SOFT/VTK-build
-WORKDIR $SOFT/VTK-build
-RUN cmake -G Ninja \
+RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
+RUN mkdir $SOFT/vtk-build2
+RUN cd /vtk-build2/ && cmake \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
   -DVTK_WRAP_PYTHON:BOOL=ON \
   -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-  -DVTK_Group_Qt:BOOL=ON \
-  -DVTK_QT_VERSION:STRING=5 \
-  -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
+  -DVTK_WRAP_TCL:BOOL=ON \
   -DVTK_PYTHON_VERSION:STRING=3 \
-  ../vtk
-RUN ninja
+  -DVTK_USE_TK:BOOL=ON \
+  ../VTK-7.0.0
 
+# Build VTK
+RUN cd /vtk-build2/ && make
 
 RUN cd $HOME
 RUN mkdir $ABCD
