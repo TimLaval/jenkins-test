@@ -85,7 +85,7 @@ RUN git checkout master
 RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
 RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get install libvtk6-dev
+#RUN apt-get build-dep -y libvtk6-dev
 RUN mkdir -p $SOFT/VTK-build
 WORKDIR $SOFT/VTK-build
 RUN cmake -G Ninja \
