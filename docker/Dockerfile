@@ -87,8 +87,6 @@ WORKDIR $SOFT/VTK-8.1.0
     
 RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
 
-RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
-RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get build-dep -y libvtk6-dev
