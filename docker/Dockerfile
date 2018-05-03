@@ -76,35 +76,33 @@ RUN cd $SOFT && \
   rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
-WORKDIR $SOFT
-# Download & build Tcl
-# https://www.tcl.tk/doc/howto/compile.html#unix
-RUN wget http://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz && tar -zxvf tcl8.6.6-src.tar.gz
-RUN cd tcl8.6.6/unix && ./configure && make && make install
-
-WORKDIR $SOFT
-# Download & build Tk
-# https://www.tcl.tk/doc/howto/compile.html
-RUN wget http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
-RUN cd tk8.6.6/unix && ./configure && make && make install
-
 #Install VTK
 WORKDIR $SOFT
-RUN wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz && tar -zxvf VTK-7.0.0.tar.gz
-RUN mkdir $SOFT/vtk-build2
-RUN cd vtk-build2/ && cmake \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=OFF \
-  -DVTK_WRAP_PYTHON:BOOL=ON \
-  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-  -DVTK_WRAP_TCL:BOOL=ON \
-  -DVTK_PYTHON_VERSION:STRING=3 \
-  -DVTK_USE_TK:BOOL=ON \
-  ../VTK-7.0.0
-
-# Build VTK
-WORKDIR $SOFT/vtk-build2
-RUN make
+RUN mkdir VTK-build
+RUN wget -nv -O- http://www.vtk.org/files/release/8.1/VTK-8.1.0.tar.gz | \
+    tar xz && \
+    cd VTK-build && \
+    cmake \
+    -D CMAKE_BUILD_TYPE:STRING=Release \
+    -D CMAKE_INSTALL_PREFIX:STRING=/usr \
+    -D BUILD_DOCUMENTATION:BOOL=OFF \
+    -D BUILD_EXAMPLES:BOOL=OFF \
+    -D BUILD_TESTING:BOOL=OFF \
+    -D BUILD_SHARED_LIBS:BOOL=ON \
+    -D VTK_USE_X:BOOL=OFF \
+    -D VTK_OPENGL_HAS_OSMESA:BOOL=ON \
+    -D OSMESA_LIBRARY=/usr/lib/libOSMesa.so.8 \
+    -D OSMESA_INCLUDE_DIR=/usr/include/GL/ \
+    -D VTK_RENDERING_BACKEND:STRING=OpenGL \
+    -D VTK_Group_MPI:BOOL=OFF \
+    -D VTK_Group_StandAlone:BOOL=OFF \
+    -D VTK_Group_Rendering:BOOL=ON \
+    -D VTK_WRAP_PYTHON=ON \
+    -D VTK_PYTHON_VERSION:STRING=2 \
+    ../VTK-8.1.0 && \
+    make -j 4 && \
+    make install && \
+    cd .. && rm -rf VTK-8.1.0
 
 RUN cd $HOME
 RUN mkdir $ABCD
