@@ -77,7 +77,7 @@ ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 RUN cd $SOFT && git clone --depth 1 git://vtk.org/VTK.git
 WORKDIR $SOFT/VTK
 RUN git checkout master
-RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
+#RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
 
 RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
 RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
