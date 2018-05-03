@@ -44,7 +44,7 @@ USER root
 #Installation of tools
 RUN apt-get -qq update
 RUN apt-get -qq -y install \
-build-essential \
+build-essential \ 
 doxygen \
 doxygen-gui \
 g++ \
@@ -59,7 +59,7 @@ sshpass \
 wget
 
 # Install CMake
-ENV CMAKE_ARCHIVE_SHA256 fdda4a8324e23c705ef0c2c45ba934ff3bd43798fb5631eec2d453693dbe777c
+ENV CMAKE_ARCHIVE_SHA256 33e4851d3219b720f4b64fcf617151168f1bffdf5afad25eb4b7f5f58cee3a08
 ENV CMAKE_VERSION_MAJOR 3
 ENV CMAKE_VERSION_MINOR 8
 ENV CMAKE_VERSION_PATCH 2
@@ -74,27 +74,25 @@ ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install VTK
 
-RUN cd $SOFT && git clone --depth 1 git://vtk.org/VTK.git
-RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
-
-RUN echo 'deb-src http://http.debian.net/debian jessie main' >> /etc/apt/sources.list
-RUN echo 'deb-src http://http.debian.net/debian jessie-updates main' >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get build-dep -y libvtk6-dev
-RUN mkdir -p $SOFT/VTK-build
-WORKDIR $SOFT/VTK-build
-RUN cmake -G Ninja \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=OFF \
-  -DVTK_WRAP_PYTHON:BOOL=ON \
-  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-  -DVTK_Group_Qt:BOOL=ON \
-  -DVTK_QT_VERSION:STRING=5 \
-  -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
-  -DVTK_PYTHON_VERSION:STRING=3 \
-  ../VTK
-RUN ninja
-    
+RUN cd $SOFT && git clone --depth 1 git://vtk.org/VTK.git && \
+    mkdir VTK-build && \
+    cd VTK-build && \
+    cmake \
+        -G Ninja \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+        -DBUILD_EXAMPLES:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=OFF \
+        -DBUILD_SHARED_LIBS:BOOL=ON \
+        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
+        -DITK_LEGACY_REMOVE:BOOL=ON \
+        -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
+        -DITK_USE_SYSTEM_LIBRARIES:BOOL=OFF \
+        -DModule_ITKCommon:BOOL=ON \
+        -DModule_ITKIOXML:BOOL=ON \
+        -DModule_ITKExpat:BOOL=ON \
+        ../VTK && \
+    ninja install && \
+cd $SOFT && rm -rf VTK VTK-build
 #RUN cmake /usr/src/gtest/CMakeLists.txt
 
 
