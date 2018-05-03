@@ -59,6 +59,8 @@ ninja-build \
 sshpass \
 wget
 
+RUN apt-get install -f
+
 # Install CMake
 ENV CMAKE_ARCHIVE_SHA256 33e4851d3219b720f4b64fcf617151168f1bffdf5afad25eb4b7f5f58cee3a08
 ENV CMAKE_VERSION_MAJOR 3
