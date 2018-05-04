@@ -33,7 +33,7 @@ def buildAndTest() {
 		docker.image("${PROPERTIES['DOCKER_IMAGE_NAME']}:latest").inside("-u root --name ${PROPERTIES['DOCKER_IMAGE_NAME']} -v ${PROPERTIES['LUMOS_AOSP_PATH']}:/media -e HOST_USER_ID=${jenkins_uid} -e HOST_USER_GID=${jenkins_gid}") {
 
 			// Host independent UID/GID mapping.
-			sh "/user_mapping.sh"
+			sh "/runTest.sh"
 
 		}
 	}
