@@ -86,6 +86,7 @@ RUN apt-get install -y libgtest-dev && \
     make
  
 # copy or symlink libgtest.a and libgtest_main.a to your /usr/lib folder
+WORKDIR /usr/src/gtest
 RUN cp *.a /usr/lib
 
 #Install VTK
