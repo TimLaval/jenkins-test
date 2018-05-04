@@ -52,7 +52,6 @@ git \
 gitk \
 graphviz \
 lcov \
-libgtest-dev \
 libgl1-mesa-dev \
 libqt5x11extras5-dev \
 libxt-dev \
@@ -79,6 +78,15 @@ RUN cd $SOFT && \
   tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
   rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
+
+#Install GoogleTest
+RUN apt-get install -y libgtest-dev && \
+    cd /usr/src/gtest && \
+    cmake CMakeLists.txt && \
+    make
+ 
+# copy or symlink libgtest.a and libgtest_main.a to your /usr/lib folder
+RUN cp *.a /usr/lib
 
 #Install VTK
 WORKDIR $SOFT
