@@ -1,4 +1,4 @@
-FROM debian:jessie  
+FROM ubuntu
 
 USER root
 
@@ -53,10 +53,17 @@ gitk \
 graphviz \
 libgtest-dev \
 libgl1-mesa-dev \
+libqt5x11extras5-dev \
+libxt-dev \
 meld \
 ninja-build \
 sshpass \
-wget
+wget \
+python3-dev \
+python3-sip \
+python3-sip-dev
+
+RUN apt-get install -f
 
 # Install CMake
 ENV CMAKE_ARCHIVE_SHA256 33e4851d3219b720f4b64fcf617151168f1bffdf5afad25eb4b7f5f58cee3a08
@@ -73,28 +80,28 @@ RUN cd $SOFT && \
 ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install VTK
+WORKDIR $SOFT
+RUN mkdir VTK-build
+RUN wget -nv -O- http://www.vtk.org/files/release/8.1/VTK-8.1.0.tar.gz | tar xz
+WORKDIR $SOFT/VTK-8.1.0
+    
+RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
 
-RUN cd $SOFT && git clone --depth 1 git://vtk.org/VTK.git && \
-    mkdir VTK-build && \
-    cd VTK-build && \
-    cmake \
-        -G Ninja \
-        -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-        -DBUILD_EXAMPLES:BOOL=OFF \
-        -DBUILD_TESTING:BOOL=OFF \
-        -DBUILD_SHARED_LIBS:BOOL=ON \
-        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
-        -DITK_LEGACY_REMOVE:BOOL=ON \
-        -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
-        -DITK_USE_SYSTEM_LIBRARIES:BOOL=OFF \
-        -DModule_ITKCommon:BOOL=ON \
-        -DModule_ITKIOXML:BOOL=ON \
-        -DModule_ITKExpat:BOOL=ON \
-        ../VTK && \
-    ninja install && \
-cd $SOFT && rm -rf VTK VTK-build
-#RUN cmake /usr/src/gtest/CMakeLists.txt
+RUN apt-get update
 
+RUN apt-get build-dep -y libvtk6-dev
+WORKDIR $SOFT/VTK-build
+RUN cmake -G Ninja \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DVTK_WRAP_PYTHON:BOOL=ON \
+  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
+  -DVTK_Group_Qt:BOOL=ON \
+  -DVTK_QT_VERSION:STRING=5 \
+  -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
+  -DVTK_PYTHON_VERSION:STRING=3 \
+  ../VTK-8.1.0
+RUN ninja
 
 RUN cd $HOME
 RUN mkdir $ABCD
