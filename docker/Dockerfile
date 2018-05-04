@@ -51,6 +51,7 @@ g++ \
 git \
 gitk \
 graphviz \
+lcov \
 libgtest-dev \
 libgl1-mesa-dev \
 libqt5x11extras5-dev \
