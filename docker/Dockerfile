@@ -3,7 +3,8 @@ FROM ubuntu
 USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
-
+# Host independent UID/GID mapping.
+ENV USER=abcd USER_ID=1000 USER_GID=1000 WORK_DIR="/media" MKI_PATH="/usr/bin/mkisofs"
 ENV VTK_VERSION v6.3.0
 ENV VTK_GIT https://gitlab.kitware.com/vtk/vtk.git
 
@@ -28,16 +29,11 @@ ENV SOFT $HOME/soft
 ENV ABCD $HOME/abcd
 ENV BASHRC $HOME/.bashrc
 
-# Create a non-priviledge user that will run the services
-ENV BASICUSER basicuser
-ENV BASICUSER_UID 1000
-
-RUN useradd -m -d $HOME -s /bin/bash -N -u $BASICUSER_UID $BASICUSER && \
-    mkdir $SOFT && \
-    mkdir $HOME/.scripts && \
-    mkdir $HOME/.nipype
-USER $BASICUSER
-WORKDIR $HOME
+#Create the user which will run scripts.
+RUN groupadd --gid ${USER_GID} ${USER}
+RUN useradd -m -G sudo -s /bin/bash lumos --uid ${USER_ID} --gid ${USER_GID} --create-home
+RUN echo "lumos ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN cat /etc/sudoers
 
 
 USER root
@@ -113,15 +109,15 @@ RUN cmake -G Ninja \
   ../VTK-8.1.0
 RUN ninja
 
-RUN cd $HOME
-RUN mkdir $ABCD
-RUN mkdir $ABCD/repo
-RUN mkdir $ABCD/compil
-RUN cd $ABCD/repo
-# Clone the conf files into the docker container
-# Have to add a user with his pass
-#RUN git clone https://github.com/barco-healthcare/dermscan-ipi.git
-RUN git clone https://github.com/TimLaval/gtest-jenkins.git
+COPY user_mapping.sh /
+COPY runTest.sh /
+COPY documentation.sh /
+COPY coverage.sh /
+RUN chmod u+x /user_mapping.sh
+RUN chmod u+x /runTest.sh
+RUN chmod u+x /documentation.sh
+RUN chmod u+x /coverage.sh
 
-USER basicuser
+
+USER ${USER}
 
