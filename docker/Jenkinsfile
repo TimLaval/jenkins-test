@@ -25,8 +25,6 @@ def checkout() {
 
 def buildDocker() {
 	docker.build("${PROPERTIES['DOCKER_IMAGE_NAME']}:${PROPERTIES['VERSION']}", "./docker")
-
-	sh "docker tag ${PROPERTIES['DOCKER_IMAGE_NAME']}:${PROPERTIES['VERSION']} ${PROPERTIES['DOCKER_IMAGE_NAME']}:latest"
 }
 
 def triggerDependentJobs(){

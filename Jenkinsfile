@@ -6,11 +6,14 @@ node {
 		checkout()
 
 		buildAndTest()
-
+		currentBuild.result = 'SUCCESS'		
 	}catch(Exception err) {
 		echo "Something went wrong: ${err}"
+		currentBuild.result = 'FAILURE'		
 	}finally {
-			
+		if(currentBuild.result == 'SUCCESS') {
+			triggerDependentJobs()
+		}
 	}
 		
 }
