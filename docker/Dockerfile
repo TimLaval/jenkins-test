@@ -109,6 +109,11 @@ RUN cmake -G Ninja \
   ../VTK-8.1.0
 RUN ninja
 
+# Mkisofs support
+COPY mkisofs /usr/bin
+RUN chown abcd:abcd ${MKI_PATH}
+RUN chmod u+x ${MKI_PATH}
+
 COPY user_mapping.sh /
 COPY runTest.sh /
 COPY documentation.sh /
