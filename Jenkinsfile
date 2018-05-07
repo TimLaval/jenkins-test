@@ -9,7 +9,10 @@ node {
 
 	}catch(Exception err) {
 		echo "Something went wrong: ${err}"
+	}finally {
+			
 	}
+		
 }
 
 def checkout() {
@@ -38,5 +41,11 @@ def buildAndTest() {
 		}
 	}
 
+}
+
+def triggerDependentJobs() {
+	stage('Trigger Dependent Jobs') {
+		echo 'There is no other dependent jobs'	
+	}
 }
 			
