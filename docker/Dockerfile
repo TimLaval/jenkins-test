@@ -128,4 +128,4 @@ RUN chmod u+x /coverage.sh
 
 
 USER ${USER}
-
+WORKDIR $ABCD
