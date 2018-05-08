@@ -32,7 +32,7 @@ ENV BASHRC $HOME/.bashrc
 #Create the user which will run scripts.
 RUN groupadd --gid ${USER_GID} ${USER}
 RUN useradd -m -G sudo -s /bin/bash abcd --uid ${USER_ID} --gid ${USER_GID} --create-home
-RUN echo "lumos ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "abcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN cat /etc/sudoers
 
 
@@ -54,6 +54,7 @@ libxt-dev \
 meld \
 ninja-build \
 sshpass \
+sudo \
 wget \
 python3-dev \
 python3-sip \
