@@ -109,6 +109,9 @@ RUN cmake -G Ninja \
   ../VTK-8.1.0
 RUN ninja
 
+
+WORKDIR $ABCD
+RUN git clone https://github.com/TimLaval/gtest-jenkins.git
 # Mkisofs support
 COPY mkisofs /usr/bin
 RUN chown abcd:abcd ${MKI_PATH}
