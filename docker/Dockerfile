@@ -117,10 +117,11 @@ COPY mkisofs /usr/bin
 RUN chown abcd:abcd ${MKI_PATH}
 RUN chmod u+x ${MKI_PATH}
 
-COPY user_mapping.sh /
-COPY runTest.sh /
-COPY documentation.sh /
-COPY coverage.sh /
+COPY user_mapping.sh $ABCD
+COPY runTest.sh $ABCD
+COPY documentation.sh $ABCD
+COPY coverage.sh $ABCD
+COPY Doxyfile $ABCD
 RUN chmod u+x /user_mapping.sh
 RUN chmod u+x /runTest.sh
 RUN chmod u+x /documentation.sh
