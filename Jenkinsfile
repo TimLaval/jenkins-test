@@ -41,9 +41,9 @@ def buildAndTest() {
 			// Host independent UID/GID mapping.
 			sh "/user_mapping.sh"
 
-			sh "/documentation.sh"
-			sh "/runTest.sh"
-			sh "/coverage.sh"
+			sh "/work/abcd/documentation.sh"
+			sh "/work/abcd/runTest.sh"
+			sh "/work/abcd/coverage.sh"
 		}
 	}
 
