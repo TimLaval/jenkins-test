@@ -127,5 +127,5 @@ RUN chmod u+x /documentation.sh
 RUN chmod u+x /coverage.sh
 
 
-
+USER ${USER}
 
