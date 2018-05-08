@@ -54,7 +54,6 @@ libxt-dev \
 meld \
 ninja-build \
 sshpass \
-sudo \
 wget \
 python3-dev \
 python3-sip \
