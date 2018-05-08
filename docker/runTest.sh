@@ -3,5 +3,5 @@
 rm -rf abcd_build
 mkdir abcd_build
 cd abcd_build
-cmake ../gtest-jenkins
+cmake /work/abcd/gtest-jenkins
 make test
