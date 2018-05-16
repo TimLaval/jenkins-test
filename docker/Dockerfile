@@ -114,11 +114,11 @@ libmedc-dev \
 libvtk6-dev \
 libproj-dev
 
-WORKDIR $ABCD
-RUN git clone https://github.com/TimLaval/gtest-jenkins.git
-WORKDIR $ABCD/gtest-jenkins
-RUN git pull
-WORKDIR $ABCD
+# WORKDIR $ABCD
+# RUN git clone https://github.com/TimLaval/gtest-jenkins.git
+# WORKDIR $ABCD/gtest-jenkins
+# RUN git pull
+# WORKDIR $ABCD
 # COPY ./dermscan $ABCD
  
 # Mkisofs support
@@ -127,12 +127,12 @@ RUN chown abcd:abcd ${MKI_PATH}
 RUN chmod u+x ${MKI_PATH}
 
 COPY user_mapping.sh /
-COPY runTest.sh $ABCD
+COPY exec.sh $ABCD
 COPY documentation.sh $ABCD
 COPY coverage.sh $ABCD
 COPY Doxyfile $ABCD
 RUN chmod u+x /user_mapping.sh
-RUN chmod u+x $ABCD/runTest.sh
+RUN chmod u+x $ABCD/exec.sh
 RUN chmod u+x $ABCD/documentation.sh
 RUN chmod u+x $ABCD/coverage.sh
 
