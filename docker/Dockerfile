@@ -119,7 +119,7 @@ RUN git clone https://github.com/TimLaval/gtest-jenkins.git
 WORKDIR $ABCD/gtest-jenkins
 RUN git pull
 WORKDIR $ABCD
-COPY ./dermscan $ABCD
+# COPY ./dermscan $ABCD
  
 # Mkisofs support
 COPY mkisofs /usr/bin

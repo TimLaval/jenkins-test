@@ -1,0 +1,4 @@
+/Users/danilobabin/DermScan_install/bin/DS_ABCD.app/Contents/MacOS/DS_ABCD /Users/danilobabin/-DIP_IMAGES/-MELANOMA/Images_test_RGB/ISIC_0000047/ISIC_0000047.png
+
+
+/Users/danilobabin/DermScan_install/bin/DS_FocusAnalysis.app/Contents/MacOS/DS_FocusAnalysis /Users/danilobabin/-DIP_IMAGES/-MELANOMA/Barco_Images_2017_06_22/capture_test007_20170608122706
