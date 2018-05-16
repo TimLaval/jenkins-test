@@ -130,11 +130,12 @@ COPY user_mapping.sh /
 COPY runTest.sh $ABCD
 COPY documentation.sh $ABCD
 COPY coverage.sh $ABCD
+COPY execute_code.sh $ABCD
 COPY Doxyfile $ABCD
 RUN chmod u+x /user_mapping.sh
 RUN chmod u+x $ABCD/runTest.sh
 RUN chmod u+x $ABCD/documentation.sh
 RUN chmod u+x $ABCD/coverage.sh
-
+RUN chmod u+x $ABCD/execute_code.sh
 
 
