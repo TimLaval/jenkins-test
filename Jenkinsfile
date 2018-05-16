@@ -42,7 +42,7 @@ def buildAndTest() {
 			sh "/user_mapping.sh"
 
 			sh "/work/abcd/documentation.sh"
-			sh "/work/abcd/exec.sh"
+			sh "/work/abcd/execute_code.sh"
 			sh "/work/abcd/coverage.sh"
 		}
 	}
