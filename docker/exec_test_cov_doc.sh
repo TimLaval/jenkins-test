@@ -1,14 +1,10 @@
 #!/bin/bash
 
 clone_abcd () {
-	#ssh-keygen  -t rsa -b 4096 -C "timothee.laval@barco.com"
-	#eval $(ssh-agent -s)
-	#ssh-add ~/.ssh/id_rsa
-	#clip < ~/.ssh/id_rsa.pub
-	chmod 400 ~/.ssh/id_rsa
+	ssh-keygen  -t rsa -b 4096 -C "timothee.laval@barco.com"
+	eval $(ssh-agent -s)
 	ssh-add ~/.ssh/id_rsa
-	chmod 400 ~/.ssh/id_rsa
-	ssh-add ~/.ssh/id_rsa	
+	#clip < ~/.ssh/id_rsa.pub
 	repository="git@github.com:TimLaval/gtest-jenkins.git"
 	localfolder=="/abcd"
 	git clone "$repository" "$localfolder"
