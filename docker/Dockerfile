@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM lhofmann/paraview-vtk-ubuntu16:latest
 
 USER root
 
@@ -36,44 +36,42 @@ RUN echo "abcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN cat /etc/sudoers
 
 
-USER root
 #Installation of tools
+
 RUN apt-get -qq update
+RUN apt-get -qq upgrade
 RUN apt-get -qq -y install \
-build-essential \ 
+cppcheck \
+curl \
 doxygen \
 doxygen-gui \
 g++ \
-git \
-gitk \
 graphviz \
 lcov \
+libjpeg62 \
+libnetcdf11 \
 libgl1-mesa-dev \
 libqt5x11extras5-dev \
 libxt-dev \
+libtiff5-dev \
+libavcodec-dev \
+libavformat-dev \
+libswscale-dev \
+libv4l-dev \
+libxvidcore-dev \
+libx264-dev \
+libgtk-3-dev \
+libatlas-base-dev \
+gfortran \
 meld \
-ninja-build \
 sshpass \
 wget \
-python3-dev \
-python3-sip \
-python3-sip-dev
+pkg-config \
+python3 \
+python-opencv \
+software-properties-common
 
 RUN apt-get install -f
-
-# Install CMake
-ENV CMAKE_ARCHIVE_SHA256 33e4851d3219b720f4b64fcf617151168f1bffdf5afad25eb4b7f5f58cee3a08
-ENV CMAKE_VERSION_MAJOR 3
-ENV CMAKE_VERSION_MINOR 8
-ENV CMAKE_VERSION_PATCH 2
-ENV CMAKE_VERSION ${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}
-WORKDIR $SOFT
-RUN wget https://cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  hash=$(sha256sum ./cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz | awk '{ print $1 }') && \
-  [ $hash = "${CMAKE_ARCHIVE_SHA256}" ] && \
-  tar -xzvf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz && \
-  rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
-ENV PATH=$SOFT/cmake-${CMAKE_VERSION}-Linux-x86_64/bin:${PATH}
 
 #Install GoogleTest
 RUN apt-get install -y libgtest-dev && \
@@ -85,50 +83,30 @@ RUN apt-get install -y libgtest-dev && \
 WORKDIR /usr/src/gtest
 RUN cp *.a /usr/lib
 
-#Install VTK
+
 WORKDIR $SOFT
-RUN mkdir VTK-build
-RUN wget -nv -O- http://www.vtk.org/files/release/8.1/VTK-8.1.0.tar.gz | tar xz
-WORKDIR $SOFT/VTK-8.1.0
-    
-RUN sed -i 's/\/\/#define\ GLX_GLXEXT_LEGACY/#define\ GLX_GLXEXT_LEGACY/g' Rendering/OpenGL/vtkXOpenGLRenderWindow.cxx
-
-RUN apt-get update
-
-RUN apt-get build-dep -y libvtk6-dev
-WORKDIR $SOFT/VTK-build
-RUN cmake -G Ninja \
-  -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=OFF \
-  -DVTK_WRAP_PYTHON:BOOL=ON \
-  -DVTK_WRAP_PYTHON_SIP:BOOL=ON \
-  -DVTK_Group_Qt:BOOL=ON \
-  -DVTK_QT_VERSION:STRING=5 \
-  -DSIP_PYQT_DIR=/usr/share/sip/PyQt5/ \
-  -DVTK_PYTHON_VERSION:STRING=3 \
-  ../VTK-8.1.0
-RUN ninja
-
-RUN apt-get -qq -y install \
-libmedc-dev \
-libvtk6-dev \
-libproj-dev
-
-WORKDIR $ABCD
-# RUN git clone https://github.com/TimLaval/gtest-jenkins.git
-# WORKDIR $ABCD/gtest-jenkins
-# RUN git pull
-# WORKDIR $ABCD
-# COPY ./dermscan $ABCD
+RUN apt-get install -qq python3-tk
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python3 get-pip.py
+RUN pip3 install matplotlib
+RUN pip3 install opencv-python
+RUN pip3 install Pillow
  
+WORKDIR $ABCD
 # Mkisofs support
 COPY mkisofs /usr/bin
 RUN chown abcd:abcd ${MKI_PATH}
 RUN chmod u+x ${MKI_PATH}
 
 COPY user_mapping.sh /
-COPY exec_test_cov_doc.sh $ABCD
 COPY Doxyfile $ABCD
+
+COPY analysis.sh $ABCD
+COPY build_abcd.sh $ABCD
+COPY documentation.sh $ABCD
+COPY segmentation_tool.sh $ABCD
+COPY testing_and_coverage.sh $ABCD
+
 RUN chmod u+x /user_mapping.sh
-RUN chmod u+x $ABCD/exec_test_cov_doc.sh
+#RUN chmod u+x $ABCD/exec_test_cov_doc.sh
 
